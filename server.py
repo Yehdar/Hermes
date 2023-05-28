@@ -16,3 +16,15 @@ def broadcast(message):
     for client in clients:
         client.send(message)
 
+def handle(client):
+    while true:
+        try:
+            message = client.recv(1024)
+            broadcast(message)
+        except:
+            clients.remove(client)
+            client.close()
+            nickname = nickname[clients.index(client)]
+            broadcast(f"{nickname} was sent to the phantom zone!".encode('ascii'))
+            nicknames.remove(nickname)
+            break
