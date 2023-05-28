@@ -53,3 +53,6 @@ def receive():
         
         thread = threading.Thread(target=handle, args=(client,))
         thread.start()
+
+print("Server is listening...")
+receive()
