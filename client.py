@@ -26,3 +26,10 @@ def write():
     while True:
         message = f'{nickname}: {input("")}'
         client.send(message.encode('ascii'))
+
+# setting up threads to allow for both functions to simultaneously run at the same time
+recieve_thread = threading.Thread(target=recieve)
+recieve_thread.start()
+
+write_thread = threading.Thread(target=write)
+write_thread.start()
