@@ -30,6 +30,10 @@ def recieve():
                     if client.recv(1024).decode('ascii') == 'REFUSE':
                         print("Connected was refused! Wrong password!")
                         stop_thread = True
+                elif next_message == 'BAN':
+                    print('Connection refused because of ban!')
+                    client.close()
+                    stop_thread = True
             else:
                 print(message)
         except:
@@ -48,7 +52,7 @@ def write():
         if message[len(nickname)+2:].startswith('/'):
             if nickname == 'admin':
                 if message[len(nickname)+2].startswith('/kick'):
-                    #  i could have split the message into a list and then extract the last item to get the name, but i believe this is a lot faster and easier lol. That
+                    #  i could have split the message into a list and then extract the last index to get the name, but i believe this is a lot faster and easier lol. That
                     # said, it forces the admin to properly space out command
                     # the + 6 stands for "/kick "
                     client.send(f'KICK {message[len(nickname)+2+6:]}'.encode('ascii'))
