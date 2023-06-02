@@ -54,6 +54,14 @@ def receive():
         client.send('NICK'.encode('ascii'))
         nickname = client.recv(1024).decode('ascii')
         
+        # to check if client was previously banned
+        with open('bans.txt', 'r') as f:
+            bans = f.readlines() 
+        if nickname+'\n' in bans:
+            client.send('BAN'.encode('ascii'))
+            client.close()
+            continue
+
         # super simple if-statement password system for admin. Too lazy to implement hash algorithms.
         if nickname == 'admin':
             client.send('PASS'.encode('ascii'))
