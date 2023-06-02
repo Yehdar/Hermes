@@ -15,7 +15,8 @@ stop_thread = False
 
 # while loop to allow user to keep sending messages until it fails
 def recieve():
-    while True:
+    while True: 
+        global stop_thread
         if stop_thread:
             break
         try:
