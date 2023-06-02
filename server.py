@@ -5,6 +5,7 @@ import socket
 host = '127.0.0.1'
 port = 55555
 
+# built-in socket method that intializes what IPv and what internet protocol (TCP)
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((host, port))
 server.listen()
@@ -18,7 +19,7 @@ def broadcast(message):
 
 def handle(client):
     # keeps sending messages until the client is removed
-    while true:
+    while True:
         try:
             message = client.recv(1024)
             broadcast(message)
