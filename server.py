@@ -37,12 +37,13 @@ def handle(client):
             else:
                 broadcast(msg)
         except:
-            clients.remove(client)
-            client.close()
-            nickname = nickname[clients.index(client)]
-            broadcast(f'{nickname} was sent to the phantom zone!'.encode('ascii'))
-            nicknames.remove(nickname)
-            break
+            if client in clients:
+                clients.remove(client)
+                client.close()
+                nickname = nickname[clients.index(client)]
+                broadcast(f'{nickname} was sent to the phantom zone!'.encode('ascii'))
+                nicknames.remove(nickname)
+                break
 
 def receive():
     # a while loop to accept every client. NO AUTHENTICATION BTW lol
@@ -92,7 +93,7 @@ def kick_user(name):
         name_index = nicknames.index(name)
         client_to_kick = clients[name_index]
         clients.remove(client_to_kick)
-        client_to_kick.send('YOu were kicked by an admin!'.encode('ascii'))
+        client_to_kick.send('You were kicked by an admin!'.encode('ascii'))
         client_to_kick.close()
         nicknames.remove(name)
         broadcast(f'{name} was kicked by an admin!'.encode('ascii'))
