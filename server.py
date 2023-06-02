@@ -40,6 +40,16 @@ def receive():
         # asks user to enter nickname, recieves it, and then store it in the clients list
         client.send('NICK'.encode('ascii'))
         nickname = client.recv(1024).decode('ascii')
+        
+        # super simple if-statement password system for admin. Too lazy to implement hash algorithms.
+        if nickname == "admin":
+            client.send('PASS'.encode('ascii'))
+            password = client.recv(1024).decode('ascii')
+            if password !=  'masteroogway12':
+                client.send('REFUSE'.encode('ascii'))
+                client.close
+                continue
+
         nicknames.append(nickname)
         clients.append(client)
 
