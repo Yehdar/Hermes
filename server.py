@@ -21,8 +21,21 @@ def handle(client):
     # keeps sending messages until the client is removed
     while True:
         try:
-            message = client.recv(1024)
-            broadcast(message)
+            msg = client.recv(1024)
+            if msg.decode('ascii').startswith('KICK'):
+                # 5 because "KICK "
+                name_to_kick = msg.decode('ascii')[5:]
+                kick_user(name_to_kick)
+            elif msg.decode('ascii').startswith('BAN'):
+                # 4 because "BAN" "
+                name_to_ban = msg.decode('ascii')[4:]
+                kick_user(name_to_ban)
+                # banned list
+                with open('bans.text', 'a') as f:
+                    f.write(f'{name_to_ban}\n')
+                print(f'{name_to_ban} was banned!')
+            else:
+                broadcast(msg)
         except:
             clients.remove(client)
             client.close()
@@ -42,7 +55,7 @@ def receive():
         nickname = client.recv(1024).decode('ascii')
         
         # super simple if-statement password system for admin. Too lazy to implement hash algorithms.
-        if nickname == "admin":
+        if nickname == 'admin':
             client.send('PASS'.encode('ascii'))
             password = client.recv(1024).decode('ascii')
             if password !=  'masteroogway12':
@@ -64,6 +77,17 @@ def receive():
         
         thread = threading.Thread(target=handle, args=(client,))
         thread.start()
+
+def kick_user(name):
+    if name in nicknames:
+        # calculates position of name to kick the client out
+        name_index = nicknames.index(name)
+        client_to_kick = clients[name_index]
+        clients.remove(client_to_kick)
+        client_to_kick.send('YOu were kicked by an admin!'.encode('ascii'))
+        client_to_kick.close()
+        nicknames.remove(name)
+        broadcast(f'{name} was kicked by an admin!'.encode('ascii'))
 
 print("Server is listening...")
 receive()
