@@ -9,3 +9,8 @@ How to run:
 1. Open two terminals (1 server, 1 client)
 2. Be in the file directory in both terminals
 3. run "python3 server.py" on the server terminal and "python3 client.py" on the client terminal
+
+Admin Rules:
+- username is "admin" and password is "masteroogway12"
+- /kick kicks users
+- /ban bans users
