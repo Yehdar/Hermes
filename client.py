@@ -10,11 +10,11 @@ if nickname == 'admin':
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect(('127.0.0.1', 55555))
 
+# stop_thread breaks the client's conncetion if true. Prob a better way to do this but it works
+stop_thread = False
 
 # while loop to allow user to keep sending messages until it fails
 def recieve():
-    # stop_thread breaks the client's conncetion if true. Prob a better way to do this but it works
-    stop_thread = False
     while True:
         if stop_thread:
             break
@@ -39,7 +39,25 @@ def recieve():
 
 def write():
     while True:
-        message = f'{nickname}: {input("")}'
+        # i have to break it here as well so the client cannot write messages as well. without this, the client can still write but not recieve
+        if stop_thread:
+            break
+        message = f'{nickname}: {input("")}' 
+        # admin's commands
+        # the message slice starts after the username + 2 (includes ": ")
+        if message[len(nickname)+2:].startswith('/'):
+            if nickname == 'admin':
+                if message[len(nickname)+2].startswith('/kick'):
+                    #  i could have split the message into a list and then extract the last item to get the name, but i believe this is a lot faster and easier lol. That
+                    # said, it forces the admin to properly space out command
+                    # the + 6 stands for "/kick "
+                    client.send(f'KICK {message[len(nickname)+2+6:]}'.encode('ascii'))
+                    # the + 5 stands for "/ban "
+                elif message[len(nickname)+2].startswith('/ban'):
+                    client.send(f'BAN {message[len(nickname)+2+5:]}'.encode('ascii'))
+            else:
+                print("Commands can only be executed by the admin!")
+
         client.send(message.encode('ascii'))
 
 # setting up threads to allow for both functions to simultaneously run at the same time
