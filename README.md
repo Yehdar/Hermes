@@ -1,5 +1,5 @@
-# TCP-Messenger
-Just wanted to learn more about tcp, client-server architecture, and api', so i dont get clowned on by friends lol
+# LAN Party Chat
+Remember LAN parties or when you used to play with your friends locally on the same wifi? Well, this is the same thing but a messaging platform.
 
 Things to note:
 - so i used the socket and threading libary for the low-level networking and running multiple processes simultaneously
