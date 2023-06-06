@@ -23,17 +23,23 @@ def handle(client):
         try:
             msg = client.recv(1024)
             if msg.decode('ascii').startswith('KICK'):
-                # 5 because "KICK "
-                name_to_kick = msg.decode('ascii')[5:]
-                kick_user(name_to_kick)
+                if nicknames[clients.index(client)] == 'admin':        
+                    # 5 because "KICK "
+                    name_to_kick = msg.decode('ascii')[5:]
+                    kick_user(name_to_kick)
+                else:
+                    client.send('Command was refused!'.encode('ascii'))
             elif msg.decode('ascii').startswith('BAN'):
-                # 4 because "BAN" "
-                name_to_ban = msg.decode('ascii')[4:]
-                kick_user(name_to_ban)
-                # banned list
-                with open('bans.text', 'a') as f:
-                    f.write(f'{name_to_ban}\n')
-                print(f'{name_to_ban} was banned!')
+                if nicknames[clients.index(client)] == 'admin':  
+                    # 4 because "BAN" "
+                    name_to_ban = msg.decode('ascii')[4:]
+                    kick_user(name_to_ban)
+                    # banned list
+                    with open('bans.text', 'a') as f:
+                        f.write(f'{name_to_ban}\n')
+                    print(f'{name_to_ban} was banned!')
+                else:
+                    client.send('Command was refused!'.encode('ascii'))
             else:
                 broadcast(msg)
         except:
