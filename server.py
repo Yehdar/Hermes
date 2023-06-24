@@ -2,12 +2,12 @@ import threading
 import socket
 
 # local host
-host = '127.0.0.1'
-port = 55555
+HOST = '127.0.0.1'
+PORT = 55555
 
 # built-in socket method that intializes what IPv and what internet protocol (TCP)
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind((host, port))
+server.bind((HOST, PORT))
 server.listen()
 
 clients = []
