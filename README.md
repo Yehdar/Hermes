@@ -5,7 +5,7 @@ Remember LAN parties or when you used to play with your friends locally on the s
 <p align="center"><img src="https://github.com/Yehdar/hermes/blob/master/demo/demo.png" width="80%"></p>
 
 ## Things to note:
-- so i used the socket and threading libary for the low-level networking and running multiple processes simultaneously
+- so i used the socket and threading libary to respectively transfer the message data and run multiple processes simultaneously
 - since its a simple project, i dont really need to use an IPv6 address. I understand IPv6 is the future and stuff, so I will play around with it in the future. But for now, we use IPv4
 
 #### Admin Rules:
