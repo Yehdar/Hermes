@@ -1,3 +1,4 @@
+from config import HOST, PORT
 import socket
 import threading
 
@@ -5,10 +6,9 @@ nickname = input("Choose a nickname: ")
 if nickname == 'admin':
     password = input("Enter password for admin: ")
 
-
 # user joins
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client.connect(('127.0.0.1', 55555))
+client.connect((HOST, PORT))
 
 # stop_thread breaks the client's conncetion if true. Prob a better way to do this but it works
 stop_thread = False

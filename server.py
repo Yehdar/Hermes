@@ -1,9 +1,6 @@
+from config import HOST, PORT
 import threading
 import socket
-
-# local host
-HOST = '127.0.0.1'
-PORT = 55555
 
 # built-in socket method that intializes what IPv and what internet protocol (TCP)
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
